@@ -1,0 +1,29 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+#wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+#sidebar-wrapper {
+    width: 250px;
+    background-color: #343a40;
+}
+
+#sidebar-wrapper ul li {
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+#sidebar-wrapper ul li:hover {
+    background-color: #495057;
+    padding-left: 10px;
+    transition: 0.3s ease;
+}
+
+#page-content-wrapper {
+    flex-grow: 1;
+    background-color: #f8f9fa;
+}

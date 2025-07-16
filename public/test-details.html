@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card-style {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #495057;
+            margin-top: 1.5rem;
+        }
+
+        .img-responsive-custom {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+        }
+
+        @media (max-width: 576px) {
+            h3 {
+                font-size: 1.4rem;
+            }
+
+            .section-title {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container my-5">
+        <h3 id="testTitle" class="mb-4 text-center text-primary fw-bold">Test Details</h3>
+
+        <div id="testContent" class="card-style"></div>
+
+        <div class="text-center">
+            <a href="tests.html" class="btn btn-outline-secondary mt-4">← Back to Test History</a>
+        </div>
+    </div>
+
+    <script>
+        const testData = {
+            "2025-07-16": {
+                subject: "Maths",
+                questionImages: [
+                    "images/2025-07-16/questions.webp"
+               ],
+                answerImages: [
+                    "images/2025-07-16/answer1.webp",
+                    "images/2025-07-16/answer2.webp",
+                    "images/2025-07-16/answer3.webp",
+                    "images/2025-07-16/answer4.webp",
+                    "images/2025-07-16/answer5.webp"
+                ],
+                marks: 18,
+                correct: 8,
+                incorrect: 2
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const date = params.get("date");
+        const test = testData[date];
+
+        const title = document.getElementById("testTitle");
+        const content = document.getElementById("testContent");
+
+        if (!test) {
+            title.textContent = "Test not found!";
+            content.innerHTML = "<p class='text-danger'>No data available for this date.</p>";
+        } else {
+            title.textContent = `Test - ${date} (${test.subject})`;
+
+            let html = `
+        <p><strong class="text-dark">Marks:</strong> <span class="text-success fw-semibold">${test.marks}/20</span></p>
+        <p><strong class="text-dark">✅ Correct:</strong> ${test.correct} &nbsp;&nbsp; <strong class="text-dark">❌ Incorrect:</strong> ${test.incorrect}</p>
+        <div class="section-title">📘 Question Images</div>
+      `;
+
+            test.questionImages.forEach((img, index) => {
+                html += `<img src="${img}" alt="Question ${index + 1}" class="img-responsive-custom">`;
+            });
+
+            html += `<div class="section-title">📝 Answer Images</div>`;
+
+            test.answerImages.forEach((img, index) => {
+                html += `<img src="${img}" alt="Answer ${index + 1}" class="img-responsive-custom">`;
+            });
+
+            content.innerHTML = html;
+        }
+    </script>
+</body>
+
+</html>

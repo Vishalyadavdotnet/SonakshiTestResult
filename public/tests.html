@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Test History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media (max-width: 576px) {
+            table thead {
+                display: none;
+            }
+
+            table tbody tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid #dee2e6;
+                border-radius: 0.5rem;
+                padding: 1rem;
+            }
+
+            table tbody td {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.5rem 0;
+                border: none;
+            }
+
+            table tbody td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #333;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="container my-5">
+        <h3 class="mb-4">📝 Daily Test History</h3>
+
+        <!-- Filter Dropdown -->
+        <div class="row mb-4">
+            <div class="col-md-4 col-sm-12">
+                <select id="subjectFilter" class="form-select">
+                    <option value="All">Filter by Subject</option>
+                    <option value="Maths">Maths</option>
+                    <option value="Science">Science</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered bg-white text-center">
+                <thead class="table-success">
+                    <tr>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Total Questions</th>
+                        <th>✅ Correct</th>
+                        <th>❌ Incorrect</th>
+                        <th>Marks</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="testData">
+                    <!-- JS will populate this -->
+                </tbody>
+            </table>
+        </div>
+
+        <a href="index.html" class="btn btn-secondary mt-4">← Back to Dashboard</a>
+    </div>
+
+
+    <script>
+        const testRecords = [
+            {
+                date: '2025-07-16',
+                subject: 'Maths',
+                totalQuestions: 10,
+                correct: 8,
+                incorrect: 2,
+                marks: 16
+            }
+        ];
+
+        const tbody = document.getElementById("testData");
+        const subjectFilter = document.getElementById("subjectFilter");
+
+        function renderTable(records) {
+            tbody.innerHTML = '';
+            records.forEach(record => {
+                tbody.innerHTML += `
+          <tr>
+            <td data-label="Date">${record.date}</td>
+            <td data-label="Subject">${record.subject}</td>
+            <td data-label="Total Questions">${record.totalQuestions}</td>
+            <td data-label="✅ Correct" class="text-success fw-bold">${record.correct}</td>
+            <td data-label="❌ Incorrect" class="text-danger fw-bold">${record.incorrect}</td>
+            <td data-label="Marks">${record.marks}/20</td>
+            <td data-label="Details"><a href="test-details.html?date=${record.date}" class="btn btn-sm btn-primary">View</a></td>
+          </tr>
+        `;
+            });
+        }
+
+        // Initial render
+        renderTable(testRecords);
+
+        // Filter logic
+        subjectFilter.addEventListener('change', () => {
+            const value = subjectFilter.value;
+            if (value === 'All') {
+                renderTable(testRecords);
+            } else {
+                const filtered = testRecords.filter(r => r.subject === value);
+                renderTable(filtered);
+            }
+        });
+    </script>
+</body>
+
+</html>
